@@ -2,18 +2,14 @@ var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
 
+var DB_NAME = 'nameslist';
 /*
  * GET userlist.
  */
 router.get('/list', function(req, res) {
     var db = req.db;
-    var collection = db.get('nameslist');
+    var collection = db.get(DB_NAME);
     collection.find({},{},function(e,names){
-
-    /*var names= [{name: 'Agaton', sex: 'M', score: 10},
-                {name: 'Arvid', sex: 'M', score: 14},
-                {name: 'Anna', sex: 'F', score: 11},
-                {name: 'Alicia', sex: 'F', score: 14}];*/
         res.json(names);
     });
 });
@@ -28,7 +24,7 @@ router.post('/add', function(req, res) {
     }
 
     var db = req.db;
-    var collection = db.get('nameslist');
+    var collection = db.get(DB_NAME);
     var newName = {
       score: 0,
       name: req.body.name,
@@ -43,11 +39,33 @@ router.post('/add', function(req, res) {
 });
 
 /*
+ * POST to adduser.
+ */
+router.post('/addscores', function(req, res) {
+    if(_.isEmpty(req.body.items)) {
+      res.send('Missing data to add');
+      return;
+    }
+
+    var db = req.db;
+    var collection = db.get(DB_NAME);
+
+    _.each(req.body.items, function(itm){
+      console.log(itm);
+      collection.update(
+         { _id: itm.id },
+         { $push: { scores: itm.score } }
+       );
+    });
+    res.send('Saved');
+});
+
+/*
  * DELETE to deleteuser.
  */
 router.delete('/delete/:id', function(req, res) {
     var db = req.db;
-    var collection = db.get('nameslist');
+    var collection = db.get(DB_NAME);
     var userToDelete = req.params.id;
     collection.remove({ '_id' : userToDelete }, function(err) {
         res.send((err === null) ? { msg: '' } : { msg:'error: ' + err });
