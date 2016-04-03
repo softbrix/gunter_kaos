@@ -12,18 +12,57 @@
 
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-theme.css">
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     </head>
-    <body>
+    <body ng-app="ngGKNameApp">
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
         <!-- Add your site or application content here -->
-        <p>Hello world! This is HTML5 Boilerplate.</p>
+        <h1> GKM </h1>
+        <p> Dags att v&auml;lja namn med <br/>
+        <strong>Gunter Kaos metoden!</strong>
+        </p>
+
+        <hr/>
+        <h1>Slumpa Namn</h1>
+        <p class="name"> Agaton </p>
+        Stars
+        <button value="Next">Nästa</button>
+
+        <hr/>
+        <div ng-controller="NameListController">
+          <h1>Topplista</h1>
+
+          <table class="nameTable">
+            <tr ng-repeat="n in names | orderBy:'score'">
+              <td class="name" ng-bind="n.name"></td>
+              <td class="score" ng-bind="n.score"></td>
+            </tr>
+          </table>
+        </div>
+
+        <hr/>
+
+        <h1>Lägg till nytt namn</h1>
+        <form ng-submit="submit()" ng-controller="NewNameController">
+          <input type="text" ng-model="new.name" name="name" focus-on="newItemAdded" class="name"/><br/>
+          <label><input type="radio" ng-model="new.sex" value="M"/>Kille</label>
+          <label><input type="radio" ng-model="new.sex" value="F"/>Tjej</label><br/>
+          <input type="submit" value="Spara"/>
+        </form>
+
+
+        <hr/>
 
         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
+        <script src="js/thirdParty.js"></script>
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
 
