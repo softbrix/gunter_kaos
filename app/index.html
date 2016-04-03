@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title></title>
+        <title>Günter Kaos Metoden</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -12,13 +12,12 @@
 
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css">
-        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-theme.css">
+        <link rel="stylesheet" href="css/thirdParty.css">
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
 
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     </head>
-    <body ng-app="ngGKNameApp">
+    <body ng-app="ngGKNameApp" ng-init = "showView='top'">
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -30,32 +29,64 @@
         </p>
 
         <hr/>
-        <h1>Slumpa Namn</h1>
-        <p class="name"> Agaton </p>
-        Stars
-        <button value="Next">Nästa</button>
+
+        <button class="btn btn-default" ng-click="showView='top'" >Topplista</button>
+        <button class="btn btn-default" ng-click="showView='grade'" >Gradera</button>
+        <button class="btn btn-default" ng-click="showView='add'" >Lägg till nytt namn</button>
 
         <hr/>
-        <div ng-controller="NameListController">
-          <h1>Topplista</h1>
+        <div ng-cloak >
+          <div ng-controller="NameListController"
+                ng-if="!showView || showView === 'top'" ng-cloak>
+            <h1>Topplista</h1>
 
-          <table class="nameTable">
-            <tr ng-repeat="n in names | orderBy:'score'">
-              <td class="name" ng-bind="n.name"></td>
-              <td class="score" ng-bind="n.score"></td>
-            </tr>
-          </table>
+            <table class="nameTable">
+              <tr ng-repeat="n in names | orderBy:'-score'">
+                <td class="name sexBg" ng-bind="n.name" ng-class="n.sex"></td>
+                <td class="score sexBg" ng-bind="n.score" ng-class="n.sex"></td>
+              </tr>
+            </table>
+          </div>
+
+          <div ng-if="showView === 'grade'"
+          ng-controller="GradeNamesController" class="gradeName">
+            <div ng-show="names.length == 0 ">Laddar namn...</div>
+            <div ng-show="names.length > 0 && !done">
+              <h1>Gradera Namn:</h1>
+              <hr/>
+              <p class="name text-center sexBg" ng-bind="current.name" ng-class="current.sex"></p>
+              <hr/>
+              <select id="options" ng-model="current.score" style="margin: 0 auto; min-width: 50%">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+               <br>
+              <button value="Previous" ng-click="prev()" ng-disabled="idx <= 1">Förra</button>
+              <button value="Next" ng-click="next()">Nästa</button>
+            </div>
+            <div ng-show="done">
+              Allt klart. Vill du skicka resultatet?
+              <br/>
+              <button class="btn btn-success" ng-click="postForm()" ng-disabled="posted">
+                Skicka
+              </button>
+              <p ng-bind="postMsg"></p>
+            </div>
+          </div>
+
+          <div ng-show="showView === 'add'" >
+            <h1>Lägg till nytt namn</h1>
+            <form ng-submit="submit()" ng-controller="NewNameController">
+              <input type="text" ng-model="new.name" name="name" focus-on="newItemAdded" class="name"/><br/>
+              <label><input type="radio" ng-model="new.sex" value="M"/>Kille</label>
+              <label><input type="radio" ng-model="new.sex" value="F"/>Tjej</label><br/>
+              <input type="submit" value="Spara"/>
+            </form>
+          </div>
         </div>
-
-        <hr/>
-
-        <h1>Lägg till nytt namn</h1>
-        <form ng-submit="submit()" ng-controller="NewNameController">
-          <input type="text" ng-model="new.name" name="name" focus-on="newItemAdded" class="name"/><br/>
-          <label><input type="radio" ng-model="new.sex" value="M"/>Kille</label>
-          <label><input type="radio" ng-model="new.sex" value="F"/>Tjej</label><br/>
-          <input type="submit" value="Spara"/>
-        </form>
 
 
         <hr/>

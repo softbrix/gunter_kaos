@@ -95,7 +95,35 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+   body {
+     max-width: 360px;
+     margin: 0 auto !important;
+   }
 
+   .gradeName .name {
+     font-size: 2em;
+   }
+
+   .sexBg.M {
+     background-color: lightblue;
+   }
+
+   .sexBg.F {
+     background-color: pink;
+   }
+
+   .name {
+     text-transform: capitalize;
+   }
+
+   .nameTable {
+     width: 100%;
+   }
+
+   .nameTable .score {
+     min-width: 30px;
+     text-align: right;
+   }
 
 
 
@@ -183,15 +211,6 @@ textarea {
 
 .clearfix:after {
     clear: both;
-}
-
-.name {
-  text-transform: capitalize;
-}
-
-.nameTable .score {
-  min-width: 30px;
-  text-align: right;
 }
 
 /* ==========================================================================
