@@ -16,7 +16,7 @@ MongoClient.connect(DATABASE_URL, function(err, client) {
     console.log("Connected correctly to Mongo database server");
     
     // Make our db accessible to our router
-    app.use(function(req,res,next){
+    app.use((req,res,next) => {
       req.db = client.db();
       next();
     });

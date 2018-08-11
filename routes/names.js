@@ -46,12 +46,6 @@ router.post('/add', function(req, res) {
           res.status(201).json(doc.ops[0]);
         }
     });
-
-    collection.insert(newName, function(err, result){
-        res.send(
-            (err === null) ? { msg: '' } : { msg: err }
-        );
-    });
 });
 
 /*
