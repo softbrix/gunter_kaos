@@ -3,11 +3,18 @@ var router = express.Router();
 var _ = require('lodash');
 
 var DB_NAME = 'nameslist';
+
+// Generic error handler used by all endpoints.
+function handleError(res, reason, message, code) {
+    console.log("ERROR: " + reason);
+    res.status(code || 500).json({"error": message});
+  }
+
 /*
  * GET userlist.
  */
 router.get('/list', function(req, res) {
-    db.collection(DB_NAME).find({}).toArray(function(err, docs) {
+    req.db.collection(DB_NAME).find({}).toArray(function(err, docs) {
         if (err) {
           handleError(res, err.message, "Failed to get contacts.");
         } else {
@@ -26,12 +33,19 @@ router.post('/add', function(req, res) {
     }
 
     var db = req.db;
-    var collection = db.get(DB_NAME);
     var newName = {
       score: 0,
       name: req.body.name,
       sex: req.body.sex
     };
+
+    db.collection(DB_NAME).insertOne(newName, function(err, doc) {
+        if (err) {
+          handleError(res, err.message, "Failed to create new contact.");
+        } else {
+          res.status(201).json(doc.ops[0]);
+        }
+    });
 
     collection.insert(newName, function(err, result){
         res.send(
