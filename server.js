@@ -11,22 +11,20 @@ var express = require('express'),
 var app = express();
 
 // Test the mongo connection
-MongoClient.connect(DATABASE_URL, function(err, db) {
+MongoClient.connect(DATABASE_URL, function(err, client) {
   if(err === null) {
     console.log("Connected correctly to Mongo database server");
-    db.close();
+    
+    // Make our db accessible to our router
+    app.use(function(req,res,next){
+      req.db = client.db();
+      next();
+    });
   } else {
     console.error(err);
     process.exit(1);
   }
 });
-
-// Make our db accessible to our router
-app.use(function(req,res,next){
-    req.db = db;
-    next();
-});
-
 
 // in order to serve files, you should add the two following middlewares
 app.use(bodyParser.json());

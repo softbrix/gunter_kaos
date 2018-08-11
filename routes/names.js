@@ -7,11 +7,13 @@ var DB_NAME = 'nameslist';
  * GET userlist.
  */
 router.get('/list', function(req, res) {
-    var db = req.db;
-    var collection = db.get(DB_NAME);
-    collection.find({},{},function(e,names){
-        res.json(names);
-    });
+    db.collection(DB_NAME).find({}).toArray(function(err, docs) {
+        if (err) {
+          handleError(res, err.message, "Failed to get contacts.");
+        } else {
+          res.status(200).json(docs);
+        }
+      });
 });
 
 /*
