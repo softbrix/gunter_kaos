@@ -1,11 +1,12 @@
 var DATABASE_URL = process.env.MONGODB_URI || 'mongodb://localhost:27017/gunter_kaos';
+const MONK_DB_URL = DATABASE_URL.substr('mongodb://'.length);
 
 var express = require('express'),
     bodyParser = require('body-parser'),
     compression = require('compression'),
     names_route = require('./routes/names'),
     MongoClient = require('mongodb').MongoClient,
-    db = require('monk')(DATABASE_URL);
+    db = require('monk')(MONK_DB_URL);
 
 var app = express();
 
