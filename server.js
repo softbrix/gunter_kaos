@@ -5,8 +5,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     compression = require('compression'),
     names_route = require('./routes/names'),
-    MongoClient = require('mongodb').MongoClient,
-    db = require('monk')(MONK_DB_URL);
+    MongoClient = require('mongodb').MongoClient;
 
 var app = express();
 
