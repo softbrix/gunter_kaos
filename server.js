@@ -12,7 +12,7 @@ var app = express();
 // Test the mongo connection
 MongoClient.connect(DATABASE_URL, function(err, db) {
   if(err === null) {
-    console.log("Connected correctly to Mongo database server: ", DATABASE_URL);
+    console.log("Connected correctly to Mongo database server");
     db.close();
   } else {
     console.error(err);
@@ -34,6 +34,7 @@ app.use(express.static(__dirname + '/app'));
 
 app.use('/names', names_route);
 
-app.listen(3001,function(){
-    console.log("Working on port 3001");
+const port = process.env.PORT || 3001;
+app.listen(port, function(){
+    console.log("Working on port " + port);
 });
