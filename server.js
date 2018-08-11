@@ -14,10 +14,11 @@ var app = express();
 MongoClient.connect(DATABASE_URL, function(err, client) {
   if(err === null) {
     console.log("Connected correctly to Mongo database server");
-    
+    var db = client.db();
+
     // Make our db accessible to our router
     app.use((req,res,next) => {
-      req.db = client.db();
+      req.db = db;
       next();
     });
   } else {
