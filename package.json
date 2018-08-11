@@ -4,11 +4,11 @@
   "description": "Select the favorite by complex grading system",
   "main": "server.js",
   "dependencies": {
-    "body-parser": "^1.15.0",
+    "body-parser": "^1.18.3",
     "compress": "^0.99.0",
-    "compression": "^1.6.1",
-    "express": "^4.13.4",
-    "lodash": "^4.7.0",
+    "compression": "^1.7.3",
+    "express": "^4.16.3",
+    "lodash": "^4.17.10",
     "mongodb": "^2.1.14",
     "monk": "^1.0.1"
   },
@@ -17,6 +17,8 @@
     "gulp-concat": "^2.6.0"
   },
   "scripts": {
+    "postinstall": "gulp js css",
+    "build": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
