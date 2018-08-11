@@ -1,4 +1,4 @@
-var DATABASE_URL = 'localhost:27017/gunter_kaos';
+var DATABASE_URL = process.env.MONGODB_URI || 'mongodb://localhost:27017/gunter_kaos';
 
 var express = require('express'),
     bodyParser = require('body-parser'),
@@ -10,7 +10,7 @@ var express = require('express'),
 var app = express();
 
 // Test the mongo connection
-MongoClient.connect('mongodb://'+DATABASE_URL, function(err, db) {
+MongoClient.connect(DATABASE_URL, function(err, db) {
   if(err === null) {
     console.log("Connected correctly to Mongo database server: ", DATABASE_URL);
     db.close();
