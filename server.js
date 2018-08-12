@@ -13,9 +13,8 @@ var db;
 // Test the mongo connection
 MongoClient.connect(DATABASE_URL, function(err, client) {
   if(err === null) {
-    console.log("Connected correctly to Mongo database server");
     db = client.db();
-    console.log(db);
+    console.log("Connected correctly to Mongo database server");
   } else {
     console.error(err);
     process.exit(1);

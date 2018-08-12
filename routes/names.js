@@ -32,14 +32,16 @@ router.post('/add', function(req, res) {
       return;
     }
 
-    var db = req.db;
+    let id = req.body.name.replace(/\W+/g, '').toLowerCase();
+
     var newName = {
+      _id: id,
       score: 0,
       name: req.body.name,
       sex: req.body.sex
     };
 
-    db.collection(DB_NAME).insertOne(newName, function(err, doc) {
+    req.db.collection(DB_NAME).insertOne(newName, function(err, doc) {
         if (err) {
           handleError(res, err.message, "Failed to create new contact.");
         } else {
@@ -57,17 +59,18 @@ router.post('/addscores', function(req, res) {
       return;
     }
 
-    var db = req.db;
-    var collection = db.get(DB_NAME);
+    var collection = req.db.collection(DB_NAME);
 
-    _.each(req.body.items, function(itm){
+    let promises = _.map(req.body.items, function(itm){
       console.log(itm);
-      collection.update(
+      return collection.update(
          { _id: itm.id },
          { $push: { scores: itm.score } }
        );
     });
-    res.send('Saved');
+    Promise.all(promises).then(() => {
+        res.send('Saved');
+    }, handleError);
 });
 
 /*
@@ -75,7 +78,7 @@ router.post('/addscores', function(req, res) {
  */
 router.delete('/delete/:id', function(req, res) {
     var db = req.db;
-    var collection = db.get(DB_NAME);
+    var collection = req.db.collection(DB_NAME);
     var userToDelete = req.params.id;
     collection.remove({ '_id' : userToDelete }, function(err) {
         res.send((err === null) ? { msg: '' } : { msg:'error: ' + err });
