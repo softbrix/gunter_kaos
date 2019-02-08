@@ -1,23 +1,34 @@
 var gulp = require('gulp');
 var concat = require('gulp-concat');
+var csso = require('gulp-csso');
+var uglify = require('gulp-uglify');
 
-gulp.task('js', function () {
+gulp.task('js', function (done) {
   gulp.src([
-    'node_modules/bootstrap/dist/bootstrap.js',
+    'node_modules/bootstrap/dist/js/bootstrap.js',
     'node_modules/lodash/lodash.min.js',
     'node_modules/angular/angular.js',
     'node_modules/jquery-bar-rating/dist/jquery.barrating.min.js'
     ])
     .pipe(concat('app/js/thirdParty.js'))
-    .pipe(gulp.dest('.'));
+    
+    .pipe(uglify())
+    .pipe(gulp.dest('.'))
+    .end(done);
 });
 
-gulp.task('css', function () {
+gulp.task('css', function (done) {
   gulp.src([
-    'node_modules/bootstrap/dist/css/bootstrap-theme.min.css',
     'node_modules/bootstrap/dist/css/bootstrap.min.css',
     'node_modules/jquery-bar-rating/dist/themes/bars-square.css'
     ])
     .pipe(concat('app/css/thirdParty.css'))
-    .pipe(gulp.dest('.'));
+    .pipe(csso())
+    .pipe(gulp.dest('.'))
+    .end(done);
 });
+
+gulp.task('default', gulp.series('js','css', function(done) {
+  // default task code here
+  done();
+}));

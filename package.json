@@ -3,22 +3,28 @@
   "version": "1.0.0",
   "description": "Select the favorite by complex grading system",
   "main": "server.js",
+  "scripts": {
+    "_postinstall": "gulp js css",
+    "start": "node server.js",
+    "build": "gulp",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "body-parser": "^1.18.3",
     "compress": "^0.99.0",
     "compression": "^1.7.3",
     "express": "^4.16.3",
-    "lodash": "^4.17.10",
     "mongodb": "^3.1.1"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.0"
-  },
-  "scripts": {
-    "_postinstall": "gulp js css",
-    "build": "gulp",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "angular": "^1.7.7",
+    "bootstrap": "^4.2.1",
+    "gulp": "^4.0.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-csso": "^3.0.1",
+    "gulp-uglify": "^3.0.1",
+    "jquery-bar-rating": "^1.2.2",
+    "lodash": "^4.17.11"
   },
   "keywords": [
     "Gunter",
@@ -26,6 +32,10 @@
     "sorting",
     "mechanism"
   ],
-  "author": "AnSehr",
-  "license": "ISC"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/softbrix/gunter_kaos.git"
+  },
+  "author": "SoftBrix",
+  "license": "GPL-3.0"
 }
